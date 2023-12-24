@@ -1,0 +1,48 @@
+import pandas as pd
+
+# Словник, який зберігає інформацію про різні моделі автомобілів.
+cars = {
+    "ModelA": {"cost": 15000, "age": 5},
+    "ModelB": {"cost": 25000, "age": 7},
+    "ModelC": {"cost": 18000, "age": 6},
+    "ModelD": {"cost": 30000, "age": 8},
+    "ModelE": {"cost": 12000, "age": 4},
+    "ModelF": {"cost": 22000, "age": 3},
+    "ModelG": {"cost": 28000, "age": 4},
+    "ModelH": {"cost": 16000, "age": 6},
+    "ModelI": {"cost": 35000, "age": 7},
+    "ModelJ": {"cost": 19000, "age": 5}
+}
+
+# Перетворення словника на датафрейм
+df = pd.DataFrame.from_dict(cars, orient='index')
+df.index.name = 'Model'
+
+# Виведення початкового датафрейму
+print("Initial DataFrame:")
+print(df)
+
+# Доповнення датафрейму новими даними
+new_data = {
+    "ModelK": {"cost": 24000, "age": 5},
+    "ModelL": {"cost": 28000, "age": 3}
+}
+new_df = pd.DataFrame.from_dict(new_data, orient='index')
+df = pd.concat([df, new_df])
+
+
+
+# Виведення оновленого датафрейму
+print("\nDataFrame after adding new data:")
+print(df)
+
+# Агрегація та групування даних 
+aggregated_data = df.groupby('age').agg({
+    'cost': 'mean',
+    'age': 'count'
+}).rename(columns={'age': 'count'})
+
+# Виведення результатів агрегації та групування
+print("\nAggregated and Grouped Data:")
+print(aggregated_data)
+
