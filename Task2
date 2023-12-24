@@ -1,0 +1,30 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# URL або шлях до CSV файлу
+url_to_csv_file = 'comptagevelo20162.csv'
+
+# Зчитуємо дані з CSV файлу
+df = pd.read_csv(url_to_csv_file)
+
+# Перетворюємо стовпець з датою в об'єкт datetime
+df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
+
+# Створюємо новий стовпець, що містить місяць
+df['Month'] = df['Date'].dt.month
+
+# Групуєємо дані за місяцем та обчислюємо загальну кількість велосипедистів для кожного місяця
+monthly_counts = df.groupby('Month')['Berri1'].sum()
+
+# Знаходимо найпопулярніший місяць
+most_popular_month = monthly_counts.idxmax()
+print(f"Найбільш популярний місяць для велосипедистів: {most_popular_month}")
+
+# Створюємо графік
+plt.figure(figsize=(10, 6))
+plt.plot(monthly_counts, marker='o', linestyle='-')
+plt.title('Використання велодоріжок у 2016 році')
+plt.xlabel("Місяць")
+plt.ylabel('Кількість велосипедистів')
+plt.grid(True)
+plt.show()
